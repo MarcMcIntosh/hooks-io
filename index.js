@@ -14,7 +14,8 @@ module.exports = function hook(service) {
       },
       json: true,
       ...opts,
-  }, cb);
+    }, cb);
+  };
 
   const { payload, url, repository } = service.params;
 
