@@ -30,8 +30,9 @@ module.exports = function hook(service) {
         service.res.end(err, 'utf8');
       });
     }
-    console.log('successfully sent')
+    console.log('successfully sent hook')
     return logs({ body: { repository, payload, url } }, (erro) => {
+      console.log("saved log");
       if (erro) {
         console.log(erro);
         return service.res.end(erro, 'utf8');
