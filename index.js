@@ -3,7 +3,7 @@ const request = require('request');
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
 
-  const logs = (opts, cb) => {
+  const saveToLogs = (opts, cb) => {
     console.log("sending :", opts);
     return request({
       url: URL,
@@ -28,12 +28,12 @@ module.exports = function hook(service) {
   }, (err, res) => {
     if (err) {
       console.log({ error: err.toString(), url, repository });
-      return logs({ body: { error: err, response: res } }, () => {
+      return saveToLogs({ body: { error: err, response: res } }, () => {
         service.res.end(err, 'utf8');
       });
     }
     console.log('successfully sent hook')
-    return logs({ body: { repository, payload, url } }, (erro) => {
+    return saveToLogs({ body: { repository, payload, url } }, (erro) => {
       console.log("saved log");
       if (erro) {
         console.log(erro);
