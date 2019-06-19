@@ -24,14 +24,13 @@ module.exports = function hook(service) {
     body: payload,
     json: true,
   }, (err, res) => {
-    console.log(res);
     if (err) {
-      console.log({ error: err, url, repository });
+      console.log({ error: err.toString(), url, repository });
       return logs({ body: { error: err, response: res } }, () => {
         service.res.end(err, 'utf8');
       });
     }
-
+    console.log('successfully sent')
     return logs({ body: { repository, payload, url } }, (erro) => {
       if (erro) {
         console.log(erro);
