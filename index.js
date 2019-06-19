@@ -1,7 +1,7 @@
 const request = require('request');
 
 module.exports = function hook(service) {
-  const { URL, PASS, USER } = service.env;
+  const { URL, PASS, USER } = Hook.env;
 
   const logs = (opts, cb) => request({
     url: URL,
