@@ -16,12 +16,15 @@ module.exports = function hook(service) {
 
   const { payload, url, repository } = service.params;
 
+  console.log('Posting:', payload, 'to: ', url)
+
   return request({
     url,
     method: 'POST',
     body: payload,
     json: true,
   }, (err, res) => {
+    console.log(res);
     if (err) {
       console.log({ error: err, url, repository });
       return logs({ body: { error: err, response: res } }, () => {
