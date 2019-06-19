@@ -4,13 +4,15 @@ module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
 
   const saveToLogs = (opts, cb) => {
-    console.log("sending :", opts);
+    console.log("sending :", opts, 'to: ', URL);
+
     return request({
       url: URL,
       method: 'POST',
       auth: {
         user: USER,
-        password: PASS,
+        pass: PASS,
+        sendImmediately: false,
       },
       json: true,
       ...opts,
