@@ -12,7 +12,7 @@ module.exports = function hook(service) {
       auth: {
         user: USER,
         pass: PASS,
-        sendImmediately: false,
+        sendImmediately: true,
       },
       json: true,
       ...opts,
