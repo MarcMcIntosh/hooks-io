@@ -3,15 +3,17 @@ const request = require('request');
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
 
-  const logs = (opts, cb) => request({
-    url: URL,
-    method: 'POST',
-    auth: {
-      user: USER,
-      password: PASS,
-    },
-    json: true,
-    ...opts,
+  const logs = (opts, cb) => {
+    console.log("sending :", opts);
+    return request({
+      url: URL,
+      method: 'POST',
+      auth: {
+        user: USER,
+        password: PASS,
+      },
+      json: true,
+      ...opts,
   }, cb);
 
   const { payload, url, repository } = service.params;
