@@ -1,0 +1,18 @@
+{
+  "repository": "abc",
+  "url": "https://requestbin.com/r/enxs92n29k76k/1MmTAS61wZt5tCqMoN6fD4XU3OT",
+  "payload": {
+    "type":"api-update",
+    "masterRef":"XQe-jyNnkbEIxWXu",
+    "releases":{},
+    "bookmarks":{},
+    "masks":{},
+    "collection":{},
+    "tags":{},
+    "experiments":{},
+    "documents":["XQdZ4SNnkaAAQQRV"],
+    "domain":"testing",
+    "apiUrl":"http://testing.wroom.test/api",
+    "secret":null
+  }
+}
