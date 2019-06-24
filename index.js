@@ -1,4 +1,4 @@
-const { post } = require('request');
+const send = require('request');
 
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
@@ -9,7 +9,10 @@ module.exports = function hook(service) {
     return 'pending';
   }
 
-  const saveToLogs = (opts, cb) => post(URL, {
+  const saveToLogs = (opts, cb) => send({
+    url: URL,
+    method: 'POST',
+    json: true,
     auth: {
       user: USER,
       pass: PASS,
@@ -29,8 +32,10 @@ module.exports = function hook(service) {
   const createdAt = Date.now();
 
   // shpould createdAt be decided here or on before posting data to hook.io?
+  console.log("Sending: ", payload, "\nTo: ", url);
 
-  return post(url, { form: payload }, (error, res) => {
+
+  return send({ url, body: payload }, (error, res) => {
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
     }
