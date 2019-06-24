@@ -1,15 +1,15 @@
-const request = require('request');
+const req = require('request');
 
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
 
   function getStatus(statusCode) {
-    if(statusCode >= 400) { return 'error'; }
-    if(statusCode >= 200) { return 'success'; }
+    if (statusCode >= 400) { return 'error'; }
+    if (statusCode >= 200) { return 'success'; }
     return 'pending';
   }
 
-  const saveToLogs = (opts, cb) => request({
+  const saveToLogs = (opts, cb) => req({
     url: URL,
     method: 'POST',
     auth: {
@@ -26,7 +26,6 @@ module.exports = function hook(service) {
     url,
     repoId,
     configId,
-    // createdAt
   } = service.params;
 
   // const timestamp = Date.now();
@@ -34,14 +33,17 @@ module.exports = function hook(service) {
 
   // shpould createdAt be decided here or on before posting data to hook.io?
 
-  return request({
+  return req({
     url,
     method: 'POST',
     body: payload,
     json: true,
-  }, (error, response) => {
-    if (error) { console.log({ error: error.toString(), url, repoId }); }
+  }, (error, res) => {
+    if (error) {
+      return console.log({ error: error.toString(), url, repoId });
+    }
 
+    const { request, ...response } = res;
 
     const body = {
       error,
@@ -49,7 +51,9 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      response,
+      lastAttempt: { request, response },
+      tries: 1,
+      maxTries: 5,
       createdAt,
       status: getStatus(response.statusCode),
     };
