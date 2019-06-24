@@ -3,6 +3,12 @@ const request = require('request');
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
 
+  function getStatus(statusCode) {
+    if(statusCode >= 400) { return 'error'; }
+    if(statusCode >= 200) { return 'success'; }
+    return 'pending';
+  }
+
   const saveToLogs = (opts, cb) => request({
     url: URL,
     method: 'POST',
@@ -24,6 +30,7 @@ module.exports = function hook(service) {
   } = service.params;
 
   // const timestamp = Date.now();
+  const createdAt = Date.now();
 
   // shpould createdAt be decided here or on before posting data to hook.io?
 
@@ -35,6 +42,7 @@ module.exports = function hook(service) {
   }, (error, response) => {
     if (error) { console.log({ error: error.toString(), url, repoId }); }
 
+
     const body = {
       error,
       url,
@@ -42,7 +50,8 @@ module.exports = function hook(service) {
       configId,
       payload,
       response,
-      createdAt: Date.now()
+      createdAt,
+      status: getStatus(response.statusCode),
     };
 
     // console.log({ body });
