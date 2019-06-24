@@ -1,7 +1,6 @@
 const send = require('request');
 
 module.exports = function hook(service) {
-  const { URL, PASS, USER } = service.env;
 
   function getStatus(statusCode) {
     if (statusCode >= 400) { return 'error'; }
@@ -51,6 +50,7 @@ module.exports = function hook(service) {
     };
 
     console.log("Loggin: ",  body);
+    console.log(service.env)
 
     return send({
       url: service.env.URL,
@@ -63,7 +63,7 @@ module.exports = function hook(service) {
       body,
     }, (erro, resp) => {
       console.log("Saved to logs: ", { resp, erro });
-      
+
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
