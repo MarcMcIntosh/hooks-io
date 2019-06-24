@@ -28,7 +28,7 @@ module.exports = function hook(service) {
   return request({
     url,
     method: 'POST',
-    json: true,
+    // json: true,
     body: payload,
   }, (error, res) => {
     // console.log('Sent');
@@ -61,7 +61,7 @@ module.exports = function hook(service) {
     return request({
       url: service.env.URL,
       method: 'POST',
-      json: true,
+      // json: true,
       auth: {
         user: service.env.USER,
         pass: service.env.PASS,
