@@ -35,7 +35,14 @@ module.exports = function hook(service) {
   console.log("Sending: ", payload, "\nTo: ", url);
 
 
-  return send({ url, body: payload }, (error, res) => {
+  return send({
+    url,
+    method: 'POST',
+    json: true,
+    body: payload,
+  }, (error, res) => {
+    console.log('Sent');
+
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
     }
