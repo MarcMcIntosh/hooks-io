@@ -1,4 +1,4 @@
-const req = require('request');
+const { post } = require('request');
 
 module.exports = function hook(service) {
   const { URL, PASS, USER } = service.env;
@@ -9,9 +9,8 @@ module.exports = function hook(service) {
     return 'pending';
   }
 
-  const saveToLogs = (opts, cb) => req({
+  const saveToLogs = (opts, cb) => post({
     url: URL,
-    method: 'POST',
     auth: {
       user: USER,
       pass: PASS,
@@ -33,11 +32,9 @@ module.exports = function hook(service) {
 
   // shpould createdAt be decided here or on before posting data to hook.io?
 
-  return req({
+  return post({
     url,
-    method: 'POST',
-    body: payload,
-    json: true,
+    form: payload,
   }, (error, res) => {
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
@@ -60,7 +57,7 @@ module.exports = function hook(service) {
 
     // console.log({ body });
 
-    return saveToLogs({ body }, (erro) => {
+    return saveToLogs({ form: body }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
