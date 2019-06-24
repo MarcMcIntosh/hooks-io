@@ -11,7 +11,7 @@ function getStatus(statusCode) {
 module.exports = function hook(service) {
 
   const { URL, USER, PASS } = service.env;
-  
+
   const {
     payload,
     url,
@@ -34,7 +34,7 @@ module.exports = function hook(service) {
     // console.log('Sent');
 
     if (error) {
-      return console.log({ error: error.toString(), url, repoId });
+      console.log({ error: error.toString(), url, repoId });
     }
 
     const req = Object.assign({}, res.request);
