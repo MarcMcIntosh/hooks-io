@@ -34,9 +34,7 @@ module.exports = function hook(service) {
       return console.log({ error: error.toString(), url, repoId });
     }
 
-    console.log("Env: ", service.env)
-
-
+    console.log({ res });
     const { request, ...response } = res;
 
     const body = {
