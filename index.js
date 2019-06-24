@@ -36,6 +36,7 @@ module.exports = function hook(service) {
 
     console.log({ res });
     const { request, ...response } = res;
+    console.log({ request, response });
 
     const body = {
       error,
