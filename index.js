@@ -1,4 +1,4 @@
-const send = require('request');
+const request = require('request');
 
 module.exports = function hook(service) {
 
@@ -22,7 +22,7 @@ module.exports = function hook(service) {
   // console.log("Sending: ", payload, "\nTo: ", url);
 
 
-  return send({
+  return request({
     url,
     method: 'POST',
     json: true,
@@ -34,8 +34,10 @@ module.exports = function hook(service) {
       return console.log({ error: error.toString(), url, repoId });
     }
 
-    console.log({ res });
-    const { request, ...response } = res;
+    const req = Object.assign({}, res.request);
+    const response = Object.assign({}, res);
+    delete response.request;
+
     console.log({ request, response });
 
     const body = {
@@ -44,7 +46,7 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      lastAttempt: { request, response },
+      lastAttempt: { request: req, response },
       tries: 1,
       maxTries: 5,
       createdAt,
@@ -53,7 +55,7 @@ module.exports = function hook(service) {
 
     console.log("Loggin: ",  body);
 
-    return send({
+    return request({
       url: service.env.URL,
       method: 'POST',
       json: true,
