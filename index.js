@@ -57,7 +57,7 @@ module.exports = function hook(service) {
 
     // console.log({ body });
 
-    return saveToLogs({ form: body }, (erro) => {
+    return saveToLogs({ body }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
