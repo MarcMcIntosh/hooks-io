@@ -9,14 +9,12 @@ module.exports = function hook(service) {
     return 'pending';
   }
 
-  const saveToLogs = (opts, cb) => post({
-    url: URL,
+  const saveToLogs = (opts, cb) => post(URL, {
     auth: {
       user: USER,
       pass: PASS,
       // sendImmediately: true,
     },
-    json: true,
     ...opts,
   }, cb);
 
@@ -32,10 +30,7 @@ module.exports = function hook(service) {
 
   // shpould createdAt be decided here or on before posting data to hook.io?
 
-  return post({
-    url,
-    form: payload,
-  }, (error, res) => {
+  return post(url, { form: payload }, (error, res) => {
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
     }
