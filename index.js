@@ -62,7 +62,7 @@ module.exports = function hook(service) {
       status: getStatus(response.statusCode),
     };
 
-    // console.log({ body });
+    console.log("Loggin: ",  body);
 
     return saveToLogs({ body }, (erro) => {
       if (erro) {
