@@ -15,8 +15,17 @@ module.exports = function hook(service) {
     ...opts,
   }, cb);
 
-  const { payload, url, repository } = service.params;
-  const timestamp = Date.now();
+  const {
+    payload,
+    url,
+    repoId,
+    configId,
+    // createdAt
+  } = service.params;
+
+  // const timestamp = Date.now();
+
+  // shpould createdAt be decided here or on before posting data to hook.io?
 
   return request({
     url,
@@ -24,19 +33,20 @@ module.exports = function hook(service) {
     body: payload,
     json: true,
   }, (error, response) => {
-    if (error) { console.log({ error: error.toString(), url, repository }); }
+    if (error) { console.log({ error: error.toString(), url, repoId }); }
 
     const body = {
       error,
-      response,
-      timestamp,
       url,
-      repository,
+      repoId,
+      configId,
       payload,
+      response,
+      createdAt: Date.now()
     };
 
     // console.log({ body });
-     
+
     return saveToLogs({ body }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
