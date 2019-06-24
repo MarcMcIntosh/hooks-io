@@ -9,18 +9,6 @@ module.exports = function hook(service) {
     return 'pending';
   }
 
-  const saveToLogs = (opts, cb) => send({
-    url: URL,
-    method: 'POST',
-    json: true,
-    auth: {
-      user: USER,
-      pass: PASS,
-      // sendImmediately: true,
-    },
-    ...opts,
-  }, cb);
-
   const {
     payload,
     url,
@@ -64,7 +52,18 @@ module.exports = function hook(service) {
 
     console.log("Loggin: ",  body);
 
-    return saveToLogs({ body }, (erro) => {
+    return send({
+      url: service.env.URL,
+      method: 'POST',
+      json: true,
+      auth: {
+        user: service.env.USER,
+        pass: service.env.PASS,
+      },
+      body,
+    }, (erro, resp) => {
+      console.log("Saved to logs: ", { resp, erro });
+      
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
