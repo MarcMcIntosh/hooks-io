@@ -1,13 +1,17 @@
 const request = require('request');
 
+
+function getStatus(statusCode) {
+  if (statusCode >= 400) { return 'error'; }
+  if (statusCode >= 200) { return 'success'; }
+  return 'pending';
+}
+
+
 module.exports = function hook(service) {
 
-  function getStatus(statusCode) {
-    if (statusCode >= 400) { return 'error'; }
-    if (statusCode >= 200) { return 'success'; }
-    return 'pending';
-  }
-
+  const { URL, USER, PASS } = service.env;
+  
   const {
     payload,
     url,
@@ -21,14 +25,13 @@ module.exports = function hook(service) {
   // shpould createdAt be decided here or on before posting data to hook.io?
   // console.log("Sending: ", payload, "\nTo: ", url);
 
-
   return request({
     url,
     method: 'POST',
     json: true,
     body: payload,
   }, (error, res) => {
-    console.log('Sent');
+    // console.log('Sent');
 
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
