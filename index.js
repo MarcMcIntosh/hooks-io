@@ -26,8 +26,6 @@ module.exports = function hook(service) {
   }, (error, response) => {
     if (error) { console.log({ error: error.toString(), url, repository }); }
 
-    console.log(response);
-
     const body = {
       error,
       response,
@@ -37,6 +35,8 @@ module.exports = function hook(service) {
       payload,
     };
 
+    console.log({ body });
+     
     return saveToLogs({ body }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
