@@ -19,7 +19,7 @@ module.exports = function hook(service) {
   const createdAt = Date.now();
 
   // shpould createdAt be decided here or on before posting data to hook.io?
-  console.log("Sending: ", payload, "\nTo: ", url);
+  // console.log("Sending: ", payload, "\nTo: ", url);
 
 
   return send({
@@ -33,6 +33,9 @@ module.exports = function hook(service) {
     if (error) {
       return console.log({ error: error.toString(), url, repoId });
     }
+
+    console.log("Env: ", service.env)
+
 
     const { request, ...response } = res;
 
@@ -50,7 +53,6 @@ module.exports = function hook(service) {
     };
 
     console.log("Loggin: ",  body);
-    console.log(service.env)
 
     return send({
       url: service.env.URL,
