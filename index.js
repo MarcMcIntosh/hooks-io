@@ -7,6 +7,15 @@ function getStatus(statusCode) {
   return 'pending';
 }
 
+function getLastAttempt(res) {
+  const req = res.request;
+  const response = { ...res };
+  delete response.request;
+  return {
+    request: req,
+    response,
+  };
+}
 
 module.exports = function hook(service) {
 
@@ -37,11 +46,7 @@ module.exports = function hook(service) {
       console.log({ error: error.toString(), url, repoId });
     }
 
-    const req = Object.assign({}, res.request);
-    const response = Object.assign({}, res);
-    delete response.request;
-
-    console.log({ request, response });
+    console.log({ res });
 
     const body = {
       error,
@@ -49,23 +54,20 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      lastAttempt: { request: req, response },
+      lastAttempt: getLastAttempt(res),
       tries: 1,
       maxTries: 5,
       createdAt,
-      status: getStatus(response.statusCode),
+      status: getStatus(res.statusCode),
     };
 
     console.log("Loggin: ",  body);
 
     return request({
-      url: service.env.URL,
+      url: URL,
       method: 'POST',
-      // json: true,
-      auth: {
-        user: service.env.USER,
-        pass: service.env.PASS,
-      },
+      json: true,
+      auth: { user: USER, pass: PASS },
       body,
     }, (erro, resp) => {
       console.log("Saved to logs: ", { resp, erro });
