@@ -16,23 +16,30 @@ module.exports = function hook(service) {
   }, cb);
 
   const { payload, url, repository } = service.params;
+  const timestamp = Date.now();
 
   return request({
     url,
     method: 'POST',
     body: payload,
     json: true,
-  }, (err, res) => {
-    if (err) {
-      console.log({ error: err.toString(), url, repository });
-      return saveToLogs({ body: { error: err.toString(), response: res } }, () => {
-        service.res.end(err, 'utf8');
-      });
-    }
+  }, (error, response) => {
+    if (error) { console.log({ error: error.toString(), url, repository }); }
 
-    return saveToLogs({ body: { repository, payload, url } }, (erro) => {
+    console.log(response);
+
+    const body = {
+      error,
+      response,
+      timestamp,
+      url,
+      repository,
+      payload,
+    };
+
+    return saveToLogs({ body }, (erro) => {
       if (erro) {
-        console.log(erro);
+        console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
       }
       return service.res.json({ ok: true });
