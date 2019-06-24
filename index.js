@@ -35,7 +35,7 @@ module.exports = function hook(service) {
       payload,
     };
 
-    console.log({ body });
+    // console.log({ body });
      
     return saveToLogs({ body }, (erro) => {
       if (erro) {
