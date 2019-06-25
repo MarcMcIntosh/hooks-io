@@ -53,7 +53,7 @@ module.exports = function hook(service) {
       configId,
       payload,
       lastAttempt: {
-        request: res.request,
+        request: Object.assign({}, res.request),
         response: res.request.response,
       },
       tries: 1,
