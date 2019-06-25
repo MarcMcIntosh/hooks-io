@@ -8,18 +8,16 @@ function getStatus(statusCode) {
 }
 
 function getLastAttempt(res) {
-  console.log(res);
-  const req = res.request;
+  const req = { ...res.request };
   const response = { ...res };
   delete response.request;
-  return {
-    request: req,
-    response,
-  };
+
+  const ret = { request: req, response };
+  console.log({ ret });
+  return ret;
 }
 
 module.exports = function hook(service) {
-
   const { URL, USER, PASS } = service.env;
 
   const {
