@@ -33,12 +33,12 @@ module.exports = function hook(service) {
   const createdAt = Date.now();
 
   // shpould createdAt be decided here or on before posting data to hook.io?
-  // console.log("Sending: ", payload, "\nTo: ", url);
+  console.log("Sending: ", payload, "\nTo: ", url);
 
   return request({
     url,
     method: 'POST',
-    // json: true,
+    json: true,
     body: payload,
   }, (error, res) => {
     // console.log('Sent');
