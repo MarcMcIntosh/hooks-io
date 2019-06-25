@@ -7,13 +7,14 @@ function getStatus(statusCode) {
   return 'pending';
 }
 
+// cuases TypeError: Converting circular structure to JSON
+
 function getLastAttempt(res) {
   const req = { ...res.request };
   const response = { ...res };
   delete response.request;
 
   const ret = { request: req, response };
-  console.log({ ret });
   return ret;
 }
 
@@ -58,17 +59,13 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-    console.log("Loggin: ",  body);
-
     return request({
       url: URL,
       method: 'POST',
       json: true,
       auth: { user: USER, pass: PASS },
       body,
-    }, (erro, resp) => {
-      console.log("Saved to logs: ", { resp, erro });
-
+    }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
