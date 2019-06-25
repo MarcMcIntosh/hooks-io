@@ -8,6 +8,7 @@ function getStatus(statusCode) {
 }
 
 function getLastAttempt(res) {
+  console.log(res);
   const req = res.request;
   const response = { ...res };
   delete response.request;
