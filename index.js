@@ -28,11 +28,7 @@ module.exports = function hook(service) {
     configId,
   } = service.params;
 
-  // const timestamp = Date.now();
   const createdAt = Date.now();
-
-  // shpould createdAt be decided here or on before posting data to hook.io?
-  console.log("Sending: ", payload, "\nTo: ", url);
 
   return request({
     url,
@@ -61,6 +57,8 @@ module.exports = function hook(service) {
       createdAt,
       status: getStatus(res.statusCode),
     };
+
+    delete body.lastAttempt.request.response;
 
     return request({
       url: URL,
