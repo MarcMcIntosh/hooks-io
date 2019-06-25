@@ -48,18 +48,13 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      lastAttempt: {
-        request: Object.assign({}, res.request),
-        response: Object.assign({}, res.request.response),
-      },
+      lastAttempt: res,
       tries: 1,
       maxTries: 5,
       createdAt,
       status: getStatus(res.statusCode),
     };
 
-    delete body.lastAttempt.request.response;
-    delete body.lastAttempt.response.request;
 
     return request({
       url: URL,
