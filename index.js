@@ -52,7 +52,10 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      lastAttempt: res,
+      lastAttempt: {
+        request: res.request,
+        response: res.request.response,
+      },
       tries: 1,
       maxTries: 5,
       createdAt,
