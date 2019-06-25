@@ -50,7 +50,7 @@ module.exports = function hook(service) {
       payload,
       lastAttempt: {
         request: Object.assign({}, res.request),
-        response: res.request.response,
+        response: Object.assign({}, res.request.response),
       },
       tries: 1,
       maxTries: 5,
@@ -59,6 +59,7 @@ module.exports = function hook(service) {
     };
 
     delete body.lastAttempt.request.response;
+    delete body.lastAttempt.response.request;
 
     return request({
       url: URL,
