@@ -45,15 +45,13 @@ module.exports = function hook(service) {
       console.log({ error: error.toString(), url, repoId });
     }
 
-    console.log({ res });
-
     const body = {
       error,
       url,
       repoId,
       configId,
       payload,
-      lastAttempt: getLastAttempt(res),
+      lastAttempt: res,
       tries: 1,
       maxTries: 5,
       createdAt,
