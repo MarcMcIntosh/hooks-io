@@ -28,7 +28,6 @@ module.exports = function hook(service) {
   }, (error, res, resBody) => {
     if (error) { console.log({ error: error.toString(), url, repoId }); }
 
-    console.log({ resBody });
     const body = {
       error,
       url,
@@ -40,7 +39,7 @@ module.exports = function hook(service) {
           status: res.statusCode,
           statusText: res.statusMessage,
           headers: res.headers,
-          body: JSON.stringify(res.body),
+          body: `${resBody}`,
           date: new Date(res.headers.date).getTime(),
         },
         request: {
