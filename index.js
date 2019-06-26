@@ -16,6 +16,7 @@ module.exports = function hook(service) {
     configId,
   } = service.params;
 
+  // use time in service
   const createdAt = Date.now();
 
   return request({
@@ -52,7 +53,7 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-    console.log(body)
+    console.log(body);
 
     return request({
       url: URL,
@@ -60,11 +61,16 @@ module.exports = function hook(service) {
       json: true,
       auth: { user: USER, pass: PASS },
       body,
-    }, (erro) => {
+    }, (erro, resp, respBody) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
       }
+      console.log({
+        resp,
+        respBody,
+      });
+      
       return service.res.json({ ok: true });
     });
   });
