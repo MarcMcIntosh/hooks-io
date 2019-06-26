@@ -37,11 +37,11 @@ module.exports = function hook(service) {
           statusCode: res.statusCode,
           headers: res.headers,
           body: json,
-          date: Date.now(),
+          date: new Date(res.headers.date),
         },
         request: {
           url: res.request.uri.href,
-          date: createdAt,
+          date: new Date(createdAt),
           method: res.request.method,
           headers: res.request.headers,
         },
