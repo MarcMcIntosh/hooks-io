@@ -25,7 +25,7 @@ module.exports = function hook(service) {
     method: 'POST',
     json: true,
     body: payload,
-  }, (error, res, json) => {
+  }, (error, res) => {
     if (error) { console.log({ error: error.toString(), url, repoId }); }
 
     const body = {
@@ -36,9 +36,10 @@ module.exports = function hook(service) {
       payload,
       lastAttempt: {
         response: {
-          statusCode: res.statusCode,
+          status: res.statusCode,
+          statusText: res.statusMessage,
           headers: res.headers,
-          body: json,
+          body: res.body,
           date: new Date(res.headers.date).getTime(),
         },
         request: {
