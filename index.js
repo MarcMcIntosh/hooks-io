@@ -17,6 +17,7 @@ module.exports = function hook(service) {
   } = service.params;
 
   // use time in service
+  // const createdAt = Date.now();
   const createdAt = Date.now();
 
   return request({
@@ -38,11 +39,11 @@ module.exports = function hook(service) {
           statusCode: res.statusCode,
           headers: res.headers,
           body: json,
-          date: new Date(res.headers.date),
+          date: new Date(res.headers.date).getTime(),
         },
         request: {
           url: res.request.uri.href,
-          date: new Date(createdAt),
+          date: createdAt,
           method: res.request.method,
           headers: res.request.headers,
         },
@@ -70,7 +71,7 @@ module.exports = function hook(service) {
         resp,
         respBody,
       });
-      
+
       return service.res.json({ ok: true });
     });
   });
