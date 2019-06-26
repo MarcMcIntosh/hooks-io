@@ -25,9 +25,10 @@ module.exports = function hook(service) {
     method: 'POST',
     json: true,
     body: payload,
-  }, (error, res) => {
+  }, (error, res, resBody) => {
     if (error) { console.log({ error: error.toString(), url, repoId }); }
 
+    console.log({ resBody });
     const body = {
       error,
       url,
