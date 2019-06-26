@@ -1,28 +1,10 @@
 const request = require('request');
-const { format } = require('url');
 
 function getStatus(statusCode) {
   if (statusCode >= 400) { return 'error'; }
   if (statusCode >= 200) { return 'success'; }
   return 'pending';
 }
-
-// cuases TypeError: Converting circular structure to JSON
-
-const removeCirularReference = obj => JSON.parse(JSON.stringify(obj, () => {
-  const seen = new WeakSet();
-
-  return (key, value) => {
-    if (typeof valoe === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return;
-      }
-      seen.add(value);
-    }
-    return value;
-  };
-}));
-
 
 module.exports = function hook(service) {
   const { URL, USER, PASS } = service.env;
@@ -42,14 +24,7 @@ module.exports = function hook(service) {
     json: true,
     body: payload,
   }, (error, res, json) => {
-    // console.log('Sent');
-
-    if (error) {
-      console.log({ error: error.toString(), url, repoId });
-    }
-
-    // const uncircular = removeCirularReference(res);
-    // const { response, ...rest } = uncircular;
+    if (error) { console.log({ error: error.toString(), url, repoId }); }
 
     const body = {
       error,
@@ -65,7 +40,7 @@ module.exports = function hook(service) {
           date: Date.now(),
         },
         request: {
-          url: format(res.request.url),
+          url: res.request.url.href,
           date: createdAt,
           method: res.request.method,
           headers: res.request.headers,
