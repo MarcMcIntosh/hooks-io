@@ -18,6 +18,21 @@ function getLastAttempt(res) {
   return ret;
 }
 
+const removeCirularReference = obj => JSON.parse(JSON.stringify(obj, () => {
+  const seen = new WeakSet();
+
+  return (key, value) => {
+    if (typeof valoe === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+}));
+
+
 module.exports = function hook(service) {
   const { URL, USER, PASS } = service.env;
 
@@ -42,13 +57,19 @@ module.exports = function hook(service) {
       console.log({ error: error.toString(), url, repoId });
     }
 
+    const uncircular = removeCirularReference(res);
+    const { responce, ...rest } = uncircular;
+
     const body = {
       error,
       url,
       repoId,
       configId,
       payload,
-      lastAttempt: res,
+      lastAttempt: {
+        responce,
+        request: rest,
+      },
       tries: 1,
       maxTries: 5,
       createdAt,
