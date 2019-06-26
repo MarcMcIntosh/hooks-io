@@ -48,8 +48,8 @@ module.exports = function hook(service) {
       console.log({ error: error.toString(), url, repoId });
     }
 
-    const uncircular = removeCirularReference(res);
-    const { response, ...rest } = uncircular;
+    // const uncircular = removeCirularReference(res);
+    // const { response, ...rest } = uncircular;
 
     const body = {
       error,
@@ -57,9 +57,12 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      lastAttempt: {
+      /* lastAttempt: {
         response,
         request: rest,
+      }, */
+      lastAttempt: {
+        response: res,
       },
       tries: 1,
       maxTries: 5,
@@ -67,8 +70,8 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-    console.log({body});
-    
+    console.log({ res });
+
     return request({
       url: URL,
       method: 'POST',
