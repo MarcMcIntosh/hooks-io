@@ -55,6 +55,7 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
+    console.log({ body });
     return request({
       url: URL,
       method: 'POST',
