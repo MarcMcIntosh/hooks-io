@@ -9,15 +9,6 @@ function getStatus(statusCode) {
 
 // cuases TypeError: Converting circular structure to JSON
 
-function getLastAttempt(res) {
-  const req = { ...res.request };
-  const response = { ...res };
-  delete response.request;
-
-  const ret = { request: req, response };
-  return ret;
-}
-
 const removeCirularReference = obj => JSON.parse(JSON.stringify(obj, () => {
   const seen = new WeakSet();
 
@@ -58,7 +49,7 @@ module.exports = function hook(service) {
     }
 
     const uncircular = removeCirularReference(res);
-    const { responce, ...rest } = uncircular;
+    const { response, ...rest } = uncircular;
 
     const body = {
       error,
@@ -67,7 +58,7 @@ module.exports = function hook(service) {
       configId,
       payload,
       lastAttempt: {
-        responce,
+        response,
         request: rest,
       },
       tries: 1,
@@ -76,7 +67,8 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-
+    console.log({body});
+    
     return request({
       url: URL,
       method: 'POST',
