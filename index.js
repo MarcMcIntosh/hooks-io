@@ -40,7 +40,7 @@ module.exports = function hook(service) {
           date: Date.now(),
         },
         request: {
-          url: res.request.url.href,
+          url: res.request.uri.href,
           date: createdAt,
           method: res.request.method,
           headers: res.request.headers,
