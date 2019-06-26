@@ -62,11 +62,12 @@ module.exports = function hook(service) {
       json: true,
       auth: { user: USER, pass: PASS },
       body,
-    }, (erro) => {
+    }, (erro, resp) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
       }
+      console.log(resp);
       return service.res.json({ ok: true });
     });
   });
