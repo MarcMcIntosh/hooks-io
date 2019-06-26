@@ -1,5 +1,5 @@
 const request = require('request');
-
+const { format } = require('url');
 
 function getStatus(statusCode) {
   if (statusCode >= 400) { return 'error'; }
@@ -41,7 +41,7 @@ module.exports = function hook(service) {
     method: 'POST',
     json: true,
     body: payload,
-  }, (error, res) => {
+  }, (error, res, json) => {
     // console.log('Sent');
 
     if (error) {
@@ -57,20 +57,25 @@ module.exports = function hook(service) {
       repoId,
       configId,
       payload,
-      /* lastAttempt: {
-        response,
-        request: rest,
-      }, */
       lastAttempt: {
-        response: res,
+        response: {
+          statusCode: res.statusCode,
+          headers: res.headers,
+          body: json,
+          date: Date.now(),
+        },
+        request: {
+          url: format(res.request.url),
+          date: createdAt,
+          method: res.request.method,
+          headers: res.request.headers,
+        },
       },
       tries: 1,
       maxTries: 5,
       createdAt,
       status: getStatus(res.statusCode),
     };
-
-    console.log({ res });
 
     return request({
       url: URL,
