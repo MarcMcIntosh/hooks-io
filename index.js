@@ -54,24 +54,17 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-    console.log(body);
-
     return request({
       url: URL,
       method: 'POST',
       json: true,
       auth: { user: USER, pass: PASS },
       body,
-    }, (erro, resp, respBody) => {
+    }, (erro) => {
       if (erro) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
       }
-      console.log({
-        resp,
-        respBody,
-      });
-
       return service.res.json({ ok: true });
     });
   });
