@@ -20,6 +20,8 @@ module.exports = function hook(service) {
   // const createdAt = Date.now();
   const createdAt = Date.now();
 
+  console.log(service.params);
+
   return request({
     url,
     method: 'POST',
@@ -56,6 +58,7 @@ module.exports = function hook(service) {
     };
 
     console.log({ body });
+
     return request({
       url: URL,
       method: 'POST',
