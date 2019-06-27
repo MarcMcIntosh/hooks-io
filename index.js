@@ -41,7 +41,7 @@ module.exports = function hook(service) {
           status: res.statusCode,
           statusText: res.statusMessage,
           headers: res.headers,
-          body: Object.keys(resBody).join('/n'),
+          body: JSON.stringify(resBody),
           date: new Date(res.headers.date).getTime(),
         },
         request: {
