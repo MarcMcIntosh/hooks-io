@@ -16,11 +16,7 @@ module.exports = function hook(service) {
     configId,
   } = service.params;
 
-  // use time in service
-  // const createdAt = Date.now();
   const createdAt = Date.now();
-
-  console.log(service.params);
 
   return request({
     url,
@@ -41,7 +37,7 @@ module.exports = function hook(service) {
           status: res.statusCode,
           statusText: res.statusMessage,
           headers: res.headers,
-          body: Object.entries(resBody).reduce((acc, [key, val]) => acc.concat(`${key} = ${val}`), []).join('\n'),
+          body: Object.entries(resBody).reduce((acc, [key, val]) => acc.concat(`${key} -> ${val}`), []).join('\n'),
           date: new Date(res.headers.date).getTime(),
         },
         request: {
@@ -56,8 +52,6 @@ module.exports = function hook(service) {
       createdAt,
       status: getStatus(res.statusCode),
     };
-
-    console.log({ body });
 
     return request({
       url: URL,
