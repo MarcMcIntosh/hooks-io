@@ -9,6 +9,8 @@ function getStatus(statusCode) {
 module.exports = function hook(service) {
   const { URL, USER, PASS } = service.env;
 
+  console.log(service.params);
+
   const {
     payload,
     url,
