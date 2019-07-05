@@ -9,8 +9,6 @@ function getStatus(statusCode) {
 module.exports = function hook(service) {
   const { URL, USER, PASS } = service.env;
 
-  console.log(service.params);
-
   const {
     payload,
     url,
@@ -28,8 +26,6 @@ module.exports = function hook(service) {
     if (error) {
       console.log({ error: error.toString(), url, repoId });
     }
-
-    console.log({ res });
 
     const body = {
       error,
@@ -58,8 +54,6 @@ module.exports = function hook(service) {
       status: getStatus(res.statusCode),
     };
 
-    console.log({ body });
-
     return request({
       url: URL,
       method: 'POST',
@@ -71,9 +65,8 @@ module.exports = function hook(service) {
         console.log('Error saveing logs: ', erro);
         return service.res.end(erro, 'utf8');
       }
-      console.log(resp);
-      
-      return service.res.json({ ok: true });
+
+      return service.res.json(resp);
     });
   });
 };
