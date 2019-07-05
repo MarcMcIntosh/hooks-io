@@ -14,9 +14,8 @@ module.exports = function hook(service) {
     url,
     repoId,
     configId,
+    createdAt = Date.now(),
   } = service.params;
-
-  const createdAt = Date.now();
 
   return request({
     url,
@@ -38,7 +37,6 @@ module.exports = function hook(service) {
           statusText: res.statusMessage,
           headers: res.headers,
           body: JSON.stringify(resBody),
-          // body: Object.entries(resBody).reduce((acc, [key, val]) => acc.concat(`${key} -> ${val}`), []).join('\n'),
           date: new Date(res.headers.date).getTime(),
         },
         request: {
