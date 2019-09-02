@@ -1,4 +1,5 @@
 const request = require('request');
+const convertToUTF8 = require('./src/convertToUTF8');
 
 function getStatus(statusCode) {
   if (statusCode >= 400) { return 'error'; }
@@ -18,11 +19,19 @@ module.exports = function hook(service) {
   } = service.params;
   console.log({ payload });
 
+  const bodyOfHook = {
+    ...payload,
+    name: convertToUTF8(payload.name),
+    secret: convertToUTF8(payload.secret),
+  };
+
+  console.log({ bodyOfHook });
+
   return request({
     url,
     method: 'POST',
     json: true,
-    body: payload,
+    body: bodyOfHook,
   }, (error, res, resBody) => {
     if (error) {
       console.log({ error: error.toString(), url, repoId });
