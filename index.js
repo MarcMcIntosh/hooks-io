@@ -13,7 +13,7 @@ function fixIsoInput(str) {
 function convertToUTF8(iso) {
   const str = fixIsoInput(iso);
   const buf = Buffer.from(str, 'latin1');
-  return buf.toString();
+  return buf.toString('utf8');
 }
 
 module.exports = function hook(service) {
