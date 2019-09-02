@@ -8,7 +8,7 @@ function getStatus(statusCode) {
 
 function convertToUTF8(iso) {
   const buf = Buffer.from(iso, 'latin1');
-  return buf.toString('utf-8');
+  return buf.toString();
 }
 
 module.exports = function hook(service) {
