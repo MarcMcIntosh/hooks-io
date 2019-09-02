@@ -28,18 +28,11 @@ module.exports = function hook(service) {
   } = service.params;
   console.log({ payload });
 
-  const bodyOfHook = {
-    ...payload,
-    secret: convertToUTF8(payload.secret),
-  };
-
-  console.log({ bodyOfHook });
-
   return request({
     url,
     method: 'POST',
     json: true,
-    body: bodyOfHook,
+    body: payload,
   }, (error, res, resBody) => {
     if (error) {
       console.log({ error: error.toString(), url, repoId });
