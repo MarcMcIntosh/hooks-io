@@ -1,10 +1,14 @@
 const request = require('request');
-const convertToUTF8 = require('./src/convertToUTF8');
 
 function getStatus(statusCode) {
   if (statusCode >= 400) { return 'error'; }
   if (statusCode >= 200) { return 'success'; }
   return 'pending';
+}
+
+function convertToUTF8(iso) {
+  const buf = Buffer.from(iso, 'latin1');
+  return buf.toString('utf-8');
 }
 
 module.exports = function hook(service) {
