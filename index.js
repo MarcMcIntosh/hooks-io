@@ -16,6 +16,7 @@ module.exports = function hook(service) {
     configId,
     createdAt = Date.now(),
   } = service.params;
+  console.log({ payload }):
 
   return request({
     url,
