@@ -6,8 +6,13 @@ function getStatus(statusCode) {
   return 'pending';
 }
 
+function fixIsoInput(str) {
+  return str.replace(/\s?$/g, '\u00A0');
+}
+
 function convertToUTF8(iso) {
-  const buf = Buffer.from(iso, 'latin1');
+  const str = fixIsoInput(iso);
+  const buf = Buffer.from(str, 'latin1');
   return buf.toString();
 }
 
