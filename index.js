@@ -6,16 +6,6 @@ function getStatus(statusCode) {
   return 'pending';
 }
 
-function fixIsoInput(str) {
-  return str.replace(/\s?$/, '\u00A0');
-}
-
-function convertToUTF8(iso) {
-  const str = fixIsoInput(iso);
-  const buf = Buffer.from(str, 'latin1');
-  return buf.toString('utf8');
-}
-
 module.exports = function hook(service) {
   const { URL, USER, PASS } = service.env;
 
@@ -26,7 +16,6 @@ module.exports = function hook(service) {
     configId,
     createdAt = Date.now(),
   } = service.params;
-  console.log({ payload });
 
   return request({
     url,
