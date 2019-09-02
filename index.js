@@ -7,7 +7,7 @@ function getStatus(statusCode) {
 }
 
 function fixIsoInput(str) {
-  return str.replace(/\s?$/g, '\u00A0');
+  return str.replace(/\s?$/, '\u00A0');
 }
 
 function convertToUTF8(iso) {
