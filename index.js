@@ -25,7 +25,6 @@ module.exports = function hook(service) {
 
   const bodyOfHook = {
     ...payload,
-    name: convertToUTF8(payload.name),
     secret: convertToUTF8(payload.secret),
   };
 
